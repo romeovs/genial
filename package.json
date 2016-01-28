@@ -5,7 +5,8 @@
   "main": "build/lib/generator.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "babel -d build/ src/"
+    "build": "babel -d build/ src/",
+    "prepublish":"npm run build"
   },
   "author": "",
   "license": "ISC",
