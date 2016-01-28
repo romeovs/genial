@@ -2,9 +2,7 @@ import {
   generator
 , types
 , actions
-}from 'genial'
-
-const {
+} from './src/lib/generator'
 
 const example =
   generator('example')
@@ -29,9 +27,11 @@ const example =
       type: types.bool
     , aliases: ['f']
     })
-    .action(actions.add, {
-      from: './templates/foo.txt'
-    , to:   './components/{{name}}.txt'
+    .action(function (env) {
+      return actions.add({
+        from: './templates/foo.txt'
+      , to:   './components/{{name}}.txt'
+      })
     })
 
 export default [

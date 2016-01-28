@@ -65,14 +65,41 @@ const add = async function (action, env, log) {
 };
 
 const act = function (action, env, log) {
-  switch (action.type.name) {
-    case actions.add.name: return add(action, env, log);
+  switch (action.type) {
+    case actions.add.type: return add(action, env, log);
     default:
       throw new Error(`Unknown action type: ${action.type.name}`);
   }
 };
 
-export default async function (actions, env, log) {
+export default async function (actionfns, env, log) {
+
+  const actions = await actionfns.reduce(async function (acc, fn) {
+    const actions = await fn(env);
+    if ( actions === undefined ) {
+      return acc;
+    }
+
+    if ( actions instanceof Array ) {
+      const f = actions.filter(function (el) {
+        if ( el && !el.type ) {
+          throw new Error(`invalid action ${action}`);
+        }
+        return el !== undefined;
+      });
+      return [...acc, ...f];
+    } else if ( actions instanceof Object ) {
+      if ( !actions.type ) {
+        throw new Error(`invalid action ${action}`);
+      }
+
+      return [...acc, actions];
+    } else {
+      throw new Error(`invalid action ${action}`);
+    }
+  }, []);
+
   const doing = actions.map(action => act(action, env, log));
   const done  = await Promise.all(doing);
 };
+

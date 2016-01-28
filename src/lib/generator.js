@@ -8,14 +8,6 @@ class Generator {
     this.actions = [];
   }
 
-  action (type, c) {
-    this.actions = [...this.actions, {
-      ...c
-    , type
-    }];
-    return this;
-  }
-
   parameter (name, c) {
     this.input = [...this.input, {
       ...c
@@ -23,13 +15,19 @@ class Generator {
     }];
     return this;
   };
+
+  action (fn) {
+    this.actions = [...this.actions, fn];
+    return this;
+  }
 };
 
-export const generator = function (name) {
+const generator = function (name) {
   return new Generator(name);
 };
 
 export {
   actions
 , types
+, generator
 };
