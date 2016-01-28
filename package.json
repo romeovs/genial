@@ -1,6 +1,6 @@
 {
   "name": "genial",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "build/lib/generator.js",
   "bin": {
@@ -9,7 +9,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "babel -d build/ src/",
-    "prepublish":"npm run build"
+    "prepublish": "npm run build"
   },
   "author": "",
   "license": "ISC",
