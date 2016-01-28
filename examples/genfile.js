@@ -1,7 +1,10 @@
-import generator from './src/lib/generator'
+import {
+  generator
+, types
+, actions
+}from 'genial'
+
 const {
-  types
-, actions } = generator;
 
 const example =
   generator('example')

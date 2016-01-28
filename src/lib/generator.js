@@ -1,7 +1,7 @@
 import types   from './types'
 import actions from './actions'
 
-export default class Generator {
+class Generator {
   constructor (name) {
     this.name    = name;
     this.input   = [];
@@ -25,11 +25,11 @@ export default class Generator {
   };
 };
 
-const generator = function (name) {
+export const generator = function (name) {
   return new Generator(name);
 };
 
-generator.actions = actions;
-generator.types   = types;
-
-export default generator;
+export {
+  actions
+, types
+};
