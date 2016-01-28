@@ -1,8 +1,11 @@
 {
-  "name": "gen",
+  "name": "genial",
   "version": "1.0.0",
   "description": "",
   "main": "build/lib/generator.js",
+  "bin": {
+    "genial": "build/index.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "babel -d build/ src/",
