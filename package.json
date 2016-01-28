@@ -24,6 +24,7 @@
     "mkdirp": "^0.5.1",
     "mz": "^2.2.0",
     "v8flags": "^2.0.11",
+    "validator": "^4.5.2",
     "yargs": "^3.32.0"
   },
   "devDependencies": {
