@@ -14,6 +14,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "babel-runtime": "^6.3.19",
     "change-case": "^2.3.1",
     "colors": "^1.1.2",
     "commander": "^2.9.0",
@@ -24,5 +25,8 @@
     "mz": "^2.2.0",
     "v8flags": "^2.0.11",
     "yargs": "^3.32.0"
+  },
+  "devDependencies": {
+    "babel-preset-all": "github:romeovs/babel-preset-all"
   }
 }
