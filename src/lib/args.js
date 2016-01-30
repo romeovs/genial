@@ -26,7 +26,7 @@ const parse = function (type, validate, value) {
 };
 
 
-const parser = function (defns, argv, require) {
+const reparse = function (defns, argv, require) {
   const parser = yargs.reset();
 
   defns.forEach(function (defn) {
