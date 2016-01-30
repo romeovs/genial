@@ -6,7 +6,20 @@ import {
 , fmtName
 } from './format'
 
-const prompt = function (opts, defn) {
+
+// takes (foratted) question and resturns on value
+const askOnce = function (question) {
+  return new Promise(function (resolve, reject) {
+    process.stdout.write(question);
+    process.stdin.once('data', function (got) {
+      const str = got.trim();
+      resolve(str);
+    }).resume();
+  });
+};
+
+
+const prompt = async function (opts, defn) {
   const {
     formatQuestion = fmtQuestion
   , formatIndex    = fmtIndex
@@ -21,68 +34,59 @@ const prompt = function (opts, defn) {
   , validate = () => true
   } = defn;
 
-  return new Promise(function (resolve, reject) {
-    process.stdin.setEncoding('utf8');
+  const parse = function (str) {
+    const parsed = type.parse(str);
+    type.validate(parsed);
+    validate(validate);
+    return parsed;
+  };
 
-    if ( !type.multiple ) {
-      // single value
-      const retry = function () {
-        return new Promise(function (resolve, reject) {
-          process.stdout.write(formatQuestion(defn));
-          process.stdin.once('data', function(val){
-            try {
-              const str = val.trim();
-              if ( str === '' ) {
-                if ( def !== undefined ) {
-                  type.validate(def);
-                  validate(def);
-                  resolve(def)
-                } else if ( type.required ) {
-                  throw new Error(`${formatName(name)} cannot be empty`);
-                } else {
-                  const parsed = type.parse(str);
-                  type.validate(parsed);
-                  validate(parsed);
-                  resolve(parsed);
-                }
-              } else {
-                const parsed = type.parse(str);
-                type.validate(parsed);
-                validate(parsed);
-                resolve(parsed);
-              }
-            } catch (err) {
-              console.log(formatError(err));
-              return resolve(retry());
-            }
-          }).resume();
-        });
-      };
-      resolve(retry());
-    } else {
-      const buf = [];
-      console.log(formatQuestion(defn));
-      process.stdout.write(formatIndex(buf.length))
-      process.stdin.on('data', function(val){
-        if ( val === '\n' || val === '\r\n' ) {
-          process.stdin.removeAllListeners('data');
-          resolve(buf);
-        } else {
-          const str = val.trim();
-          try {
-            const parsed = type.parse(str);
-            type.validate(parsed);
-            validate(parsed);
-            buf.push(parsed);
-            process.stdout.write(formatIndex(buf.length))
-          } catch (err) {
-            console.log(formatError(err));
-            process.stdout.write(formatIndex(buf.length))
+  // return new Promise(function (resolve, reject) {
+  process.stdin.setEncoding('utf8');
+
+  if ( !type.multiple ) {
+    // single value
+    const retry = async function () {
+      try {
+        let str = await askOnce(formatQuestion(defn));
+        if ( str === '' ) {
+          // emtpy value
+          if ( def ) {
+            // use default if possible
+            str = def;
+          } else if ( type.required ) {
+            // throw if no default and required
+            throw new Error(`${formatName(name)} cannot be empty`);
           }
         }
-      }).resume();
-    }
-  });
+        return parse(str);
+      } catch (err) {
+        console.log(formatError(err));
+        return retry();
+      }
+    };
+
+    return retry();
+
+  } else {
+    // array
+    const next = async function (buf) {
+      let str = await askOnce(formatIndex(buf.length));
+      if ( str === '' ) {
+        return buf;
+      } else {
+        try {
+          return next(buf.concat(parse(str)));
+        } catch (err) {
+          console.log(formatError(err));
+          return next(buf);
+        }
+      }
+    };
+
+    console.log(formatQuestion(defn));
+    return next([]);
+  };
 };
 
 // ask many questions
