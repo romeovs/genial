@@ -14,7 +14,7 @@ const rungen = async function (generator, argv, log) {
   , actions
   } = generator;
 
-  log(`running ${fmtName(name)}`);
+  log(`running generator ${fmtName(name)}`);
 
   log.debug(generator);
   log.debug(argv);

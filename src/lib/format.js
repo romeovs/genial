@@ -33,5 +33,5 @@ export const fmtError = function (err) {
 };
 
 export const fmtName = function (name) {
-  return `\`${colors.magenta(name)}\``;
+  return `${colors.magenta(name)}`;
 };

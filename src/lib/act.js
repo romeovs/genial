@@ -4,6 +4,7 @@ import ccase      from 'change-case'
 import fs         from 'mz/fs'
 import mkdirp     from 'mkdirp'
 import path       from 'path'
+import colors     from 'colors'
 
 const mkdir = function (dirname) {
   return new Promise(function (resolve, reject) {
@@ -52,13 +53,17 @@ const add = async function (action, env, log) {
   const template = expand(from);
   const dest     = expand(to);
 
+  if ( ! await fs.exists(path.resolve(template)) ) {
+    throw new Error(`template file ${template} does not seem to exist`);
+  }
+
   const tmpl = await fs.readFile(path.resolve(template));
   const content = expand(tmpl.toString());
 
   if ( await fs.exists(dest) ) {
     log.warn(`${dest} already exists, skipping.`)
   } else {
-    log(`creating ${dest}`);
+    log(`creating ${colors.magenta(dest)}`);
     await mkdir(path.dirname(dest));
     await fs.writeFile(dest, content);
   }
