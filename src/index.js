@@ -45,6 +45,7 @@ const run = function (env) {
   }
 
   // require the configuration
+  const require('babel/register');
   const required   = require(env.configPath);
   const generators = required.default ? required.default : required;
 
