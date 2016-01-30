@@ -48,6 +48,11 @@ const run = function (env) {
   log.debug('CWD =', env.cwd);
   log.debug('GENFILE =', env.configPath);
 
+  if ( !env.configPath ) {
+    log.error('no genfile found');
+    process.exit(1);
+  }
+
   // require the configuration
   const required   = require(env.configPath);
   const generators = required.default ? required.default : required;
