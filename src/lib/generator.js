@@ -8,6 +8,11 @@ class Generator {
     this.actions = [];
   }
 
+  description (lines) {
+    this.desc = lines;
+    return this;
+  }
+
   parameter (name, c) {
     this.input = [...this.input, {
       ...c
