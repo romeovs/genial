@@ -53,7 +53,11 @@ const prompt = async function (opts, defn) {
           // emtpy value
           if ( def ) {
             // use default if possible
-            str = def;
+            type.validate(def);
+            validate(def);
+            return def;
+          } else if ( type.fn === Boolean ) {
+            return false;
           } else if ( type.required ) {
             // throw if no default and required
             throw new Error(`${formatName(name)} cannot be empty`);
@@ -91,9 +95,10 @@ const prompt = async function (opts, defn) {
 
 // ask many questions
 const askMany = function (defns, obj = {}, opts = {}) {
+  console.log(obj);
   return defns.reduce(async function (acc, defn) {
     const prev = await acc;
-    if ( obj[defn.name] === undefined && defn.type.required ) {
+    if ( (obj[defn.name] === undefined && defn.type.required) || (defn.alwaysAsk) ) {
       return {
         ...prev
       , [defn.name]: await prompt(opts, defn)
