@@ -21,7 +21,6 @@
     "handlebars": "^4.0.5",
     "interpret": "^1.0.0",
     "liftoff": "^2.2.0",
-    "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
     "mz": "^2.2.0",
     "unparse-args": "^1.1.0",

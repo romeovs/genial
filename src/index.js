@@ -1,21 +1,12 @@
 #!/usr/bin/env node
 import Liftoff   from 'liftoff'
 import interpret from 'interpret'
-import yargs  from 'yargs'
+import yargs     from 'yargs'
 import v8flags   from 'v8flags'
 
 import pkg       from '../package.json'
 import logger    from './lib/logger'
 import gen       from './lib/gen'
-
-// const argv = minimist(process.argv.slice(2), {
-// const argv = minimist(process.argv, {
-//   alias: {
-//     'help':    'h'
-//   , 'version': 'v'
-//   , 'verbose': 'V'
-//   }
-// });
 
 const argv = yargs
   .boolean(['help', 'version', 'verbose'])

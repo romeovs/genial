@@ -1,4 +1,3 @@
-import minimist from 'minimist'
 import yargs    from 'yargs'
 import unparse  from 'unparse-args'
 import {
