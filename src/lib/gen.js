@@ -6,6 +6,8 @@ import {
 } from './format'
 import cta from './clithenask'
 import act from './act'
+import help from './help'
+import allhelp from './allhelp'
 
 const rungen = async function (generator, argv, log) {
   const {
@@ -37,6 +39,13 @@ const run = async function (config, log) {
   const [name, ...rest] = argv._;
   if ( ! name ) {
     throw new Error('no generator selected');
+  } else if ( name === 'help' ) {
+    if ( rest[0] ) {
+      const generator = generators.find(gen => gen.name === rest[0]);
+      console.log(help(generator));
+    } else {
+      console.log(allhelp(config));
+    }
   } else {
     const generator = generators.find(gen => gen.name === name);
     if ( !generator ) {
