@@ -1,6 +1,6 @@
 {
   "name": "genial",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "description": "",
   "main": "build/lib/generator.js",
   "bin": {
