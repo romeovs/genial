@@ -74,7 +74,6 @@ const parseopts = function (defns = [], argv, opts = {}) {
   } = opts;
 
   const args = reparse(defns, argv, !ignoreMissing);
-  console.log(args);
 
   const res = defns.reduce(function (acc, defn) {
     const {
@@ -86,7 +85,6 @@ const parseopts = function (defns = [], argv, opts = {}) {
     } = defn;
 
     let value = args[name];
-    console.log(name, value);
 
     if ( positional ) {
       if ( value && args._.length > 0 ) {
@@ -105,7 +103,6 @@ const parseopts = function (defns = [], argv, opts = {}) {
     }
 
     const parsed = parse(type, validate, value);
-    console.log(name, value, parsed);
 
     return {
       ...acc

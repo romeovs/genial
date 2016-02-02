@@ -95,7 +95,6 @@ const prompt = async function (opts, defn) {
 
 // ask many questions
 const askMany = function (defns, obj = {}, opts = {}) {
-  console.log(obj);
   return defns.reduce(async function (acc, defn) {
     const prev = await acc;
     if ( (obj[defn.name] === undefined && defn.type.required) || (defn.alwaysAsk) ) {

@@ -10,7 +10,6 @@ import gen       from './lib/gen'
 
 const argv = yargs
   .boolean(['help', 'version', 'verbose'])
-  .alias('help', 'h')
   .alias('version', 'v')
   .alias('verbose', 'V')
   .argv;
@@ -55,12 +54,6 @@ const run = function (env) {
     log.warn(`  global version is: ${pkg.version}`);
   }
 
-  if ( argv.help ) {
-    // todo show help
-    console.log('help');
-    process.exit(0);
-  }
-
   if ( argv.version ) {
     console.log(pkg.version);
     process.exit(0);
@@ -72,8 +65,6 @@ const run = function (env) {
   delete argv.V;
   delete argv.version;
   delete argv.v;
-  delete argv.help;
-  delete argv.h;
   delete argv.cwd;
   delete argv.completion;
   delete argv['$0'];
