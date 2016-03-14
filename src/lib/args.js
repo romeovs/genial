@@ -7,10 +7,14 @@ import {
 
 const parse = function (type, validate, value) {
   if ( type.multiple ) {
-    const aval = value === undefined ? [] : (value instanceof Array ? value : [value]);
-    return aval.map(function (el) {
-      return parse({...type, multiple: false}, validate, el);
-    });
+    if ( value !== undefined ) {
+      const aval = value === true ? [] : (value instanceof Array ? value : [value]);
+      return aval.map(function (el) {
+        return parse({...type, multiple: false}, validate, el);
+      });
+    } else {
+      return value;
+    }
   } else if ( type.fn === Boolean ) {
     if ( value.constructor === Boolean ) {
       return value;
