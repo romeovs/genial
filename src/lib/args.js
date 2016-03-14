@@ -7,7 +7,7 @@ import {
 
 const parse = function (type, validate, value) {
   if ( type.multiple ) {
-    const aval = value instanceof Array ? value : [value];
+    const aval = value === undefined ? [] : (value instanceof Array ? value : [value]);
     return aval.map(function (el) {
       return parse({...type, multiple: false}, validate, el);
     });
