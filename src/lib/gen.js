@@ -38,7 +38,10 @@ const run = async function (config, log) {
 
   const [name, ...rest] = argv._;
   if ( ! name ) {
-    throw new Error('no generator selected');
+    log.error('no generator selected');
+    log('possible generators are:');
+    generators.forEach(gen => log.item(gen.name))
+    process.exit(1)
   } else if ( name === 'help' ) {
     if ( rest[0] ) {
       const generator = generators.find(gen => gen.name === rest[0]);
