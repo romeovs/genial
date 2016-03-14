@@ -20,6 +20,7 @@ log.debug('verbose mode enabled');
 
 const Gen = new Liftoff({
   name: 'gen'
+, moduleName: 'genial'
 , configName: 'genfile'
 , extensions: interpret.jsVariants
 , v8flags:    v8flags
@@ -32,7 +33,6 @@ const Gen = new Liftoff({
   })
 
 const run = function (env) {
-
   log.debug('GLOBAL VERSION =', pkg.version);
   log.debug('LOCAL  VERSION =', env.modulePackage.version);
   log.debug('CWD =', env.cwd);
