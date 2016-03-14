@@ -29,10 +29,13 @@ export default function (verbose = false, usecolors = true) {
 
   log.error = function (...args) {
     const [msg, ...rest] = args;
-    console.error(grey('gen: '), red(msg), ...rest);
+    console.error(grey('gen: '), red(`Ooops! ${msg}`), ...rest);
+  };
+
+  log.item = function (item) {
+    log(yellow('  -'), item)
   };
 
   return log;
 };
-
 
