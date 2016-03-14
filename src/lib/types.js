@@ -64,11 +64,14 @@ const types = {
 
   // ARRAY
 , array(type) {
-    return {
+    const t = {
       ...type
     , name: `array(${type.name})`
     , multiple: true
     }
+
+    t.require = { ...t, required: true };
+    return t;
   }
 
 };
