@@ -38,5 +38,18 @@ names and types of the parameters and possibly add a description.
 
 **todo**
 
+# Todo
+
+- [ ] think really hard about array type semantics.  When should a required
+  array trigger a question? Perhaps switch to
+  ```
+   --import [ fleep, floop, flap ]
+   ```
+   style of array parameters to allow disambiguation between `undefined` (no
+   array given) and `[]` (empty array given). In the current semantics, they
+   both look the same.
+
+- [ ] allow for other options to be set in `genfile` (eg. `no-color`, `verbose`,
+  ...)
 
 [plop]: https://github.com/amwmedia/plop
