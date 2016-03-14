@@ -37,7 +37,7 @@ const types = {
     name:   'number'
   , fn:     Number
   , parse (str, opts) {
-      if(floating.test(str)) {
+      if(str && floating(str)) {
         return Number(str);
       } else {
         throw new Error(`invalid number: ${str}`);
@@ -52,10 +52,10 @@ const types = {
     name:   'integer'
   , fn:     Number
   , parse (str) {
-      if(integer.test(str)) {
+      if(str && integer(str)) {
         return Number(str);
       } else {
-        throw new Error(`invalid number: ${str}`);
+        throw new Error(`invalid integer: ${str}`);
       }
     }
   , multiple:  false
