@@ -1,4 +1,5 @@
 import types  from './types';
+import log    from './logger';
 import {
   fmtQuestion
 , fmtIndex
@@ -10,7 +11,7 @@ import {
 // takes (foratted) question and resturns on value
 const askOnce = function (question) {
   return new Promise(function (resolve, reject) {
-    process.stdout.write(question);
+    log.out(question);
     process.stdin.once('data', function (got) {
       const str = got.trim();
       resolve(str);
@@ -65,7 +66,7 @@ const prompt = async function (opts, defn) {
         }
         return parse(str);
       } catch (err) {
-        console.log(formatError(err));
+        log.error(formatError(err));
         return retry();
       }
     };
@@ -82,13 +83,13 @@ const prompt = async function (opts, defn) {
         try {
           return next(buf.concat(parse(str)));
         } catch (err) {
-          console.log(formatError(err));
+          log.error(formatError(err));
           return next(buf);
         }
       }
     };
 
-    console.log(formatQuestion(defn));
+    log(formatQuestion(defn));
     return next([]);
   };
 };
