@@ -40,16 +40,9 @@ names and types of the parameters and possibly add a description.
 
 # Todo
 
-- [ ] think really hard about array type semantics.  When should a required
-  array trigger a question? Perhaps switch to
-  ```
-   --import [ fleep, floop, flap ]
-   ```
-   style of array parameters to allow disambiguation between `undefined` (no
-   array given) and `[]` (empty array given). In the current semantics, they
-   both look the same.
-
 - [ ] allow for other options to be set in `genfile` (eg. `no-color`, `verbose`,
   ...)
+
+- [ ] boolean flags should hvae a `no-name` version to explicitly set to false
 
 [plop]: https://github.com/amwmedia/plop
