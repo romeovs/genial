@@ -8,8 +8,9 @@ import cta from './clithenask'
 import act from './act'
 import help from './help'
 import allhelp from './allhelp'
+import log from './logger'
 
-const rungen = async function (generator, argv, log) {
+const rungen = async function (generator, argv) {
   const {
     name
   , input
@@ -22,17 +23,17 @@ const rungen = async function (generator, argv, log) {
   log.debug(argv);
   const env = await cta(input, argv);
 
-  const r = await act(actions, env, log);
+  const r = await act(actions, env);
 
   log('done!');
 
   return r;
 };
 
-const run = async function (config, log) {
+const run = async function (config) {
   const {
     argv
-  , generators
+  , generators = []
   , formatName = fmtName
   } = config;
 
@@ -61,7 +62,7 @@ const run = async function (config, log) {
 
 export default async function (config, log) {
   try {
-    await run(config, log)
+    await run(config)
     process.exit(0);
   } catch (err) {
     log.error(err.message);

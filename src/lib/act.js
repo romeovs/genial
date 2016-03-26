@@ -5,6 +5,7 @@ import fs         from 'mz/fs'
 import mkdirp     from 'mkdirp'
 import path       from 'path'
 import colors     from 'colors'
+import log        from './logger'
 
 const mkdir = function (dirname) {
   return new Promise(function (resolve, reject) {
@@ -42,7 +43,7 @@ const compiler = function (data) {
   };
 };
 
-const add = async function (action, env, log) {
+const add = async function (action, env) {
   const {
     from
   , to
@@ -69,15 +70,15 @@ const add = async function (action, env, log) {
   }
 };
 
-const act = function (action, env, log) {
+const act = function (action, env) {
   switch (action.type) {
-    case actions.add.type: return add(action, env, log);
+    case actions.add.type: return add(action, env);
     default:
       throw new Error(`Unknown action type: ${action.type.name}`);
   }
 };
 
-export default async function (actionfns, env, log) {
+export default async function (actionfns, env) {
 
   const actions = await actionfns.reduce(async function (acc, fn) {
     const actions = await fn(env);
@@ -104,7 +105,7 @@ export default async function (actionfns, env, log) {
     }
   }, []);
 
-  const doing = actions.map(action => act(action, env, log));
+  const doing = actions.map(action => act(action, env));
   const done  = await Promise.all(doing);
 };
 

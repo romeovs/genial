@@ -1,41 +1,54 @@
 import colors from 'colors/safe'
 
 const id = x => x;
-export default function (verbose = false, usecolors = true) {
 
-  const blue   = usecolors ? colors.blue : id;
-  const grey   = usecolors ? colors.grey : id;
-  const yellow = usecolors ? colors.yellow : id;
-  const red    = usecolors ? colors.red : id;
+let CONFIG = {
+  debug:  false
+, colors: true
+}
 
-  const log = function (...args) {
-    const [msg, ...rest] = args;
-    console.log(grey('gen: '), msg, ...rest);
-  };
+const blue   = x => CONFIG.colors ? colors.blue(x)   : x
+const grey   = x => CONFIG.colors ? colors.grey(x)   : x
+const yellow = x => CONFIG.colors ? colors.yellow(x) : x
+const red    = x => CONFIG.colors ? colors.red(x)    : x
 
-  if ( verbose ) {
-    log.debug = function (...args) {
-      const [msg, ...rest] = args;
-      console.log(blue('gen: '), msg, ...rest);
-    };
-  } else {
-    log.debug = () => undefined;
-  }
+const print = function (...args) {
+  console.log(grey('gen:'), ...args)
+}
 
-  log.warn = function (...args) {
-    const [msg, ...rest] = args;
-    console.log(grey('gen: '), yellow(msg), ...rest);
-  };
-
-  log.error = function (...args) {
-    const [msg, ...rest] = args;
-    console.error(grey('gen: '), red(`Ooops! ${msg}`), ...rest);
-  };
-
-  log.item = function (item) {
-    log(yellow('  -'), item)
-  };
-
-  return log;
+const log = function (...args) {
+  print(...args)
 };
 
+log.print = print
+log.out   = function (a) {
+  process.stdout.write(grey('gen: '));
+  process.stdout.write(a);
+}
+
+log.debug = function (...args) {
+  if ( CONFIG.DEBUG ) {
+    print(...args.map(blue))
+  }
+};
+
+log.warn = function (...args) {
+  print(...args.map(yellow))
+};
+
+log.error = function (...args) {
+  print(...args.map(red))
+};
+
+log.item = function (item) {
+  print(yellow('  -'), item)
+};
+
+log.configure = function (conf) {
+  CONFIG = {
+    ...CONFIG
+  , ...conf
+  }
+};
+
+export default log

@@ -13,6 +13,10 @@ const showRequired = function (req) {
   return req ? colors.yellow('required') : '';
 };
 
+const showPositional = function (pos) {
+  return pos ? colors.yellow('positional') : '';
+};
+
 const showDefault = function (def) {
   return def ? `(${def})` : ''
 };
@@ -36,7 +40,7 @@ const showArg = function (defn = {}) {
   }).join(', ');
 
   // return `  ${colors.bold(names)} ${showType(type)} ${description} ${showDefault(def)}  ${showRequired(type.required)}`;
-  return [`    ${colors.bold(names)} ${showType(type)}`,  `${description} ${showDefault(def)}  ${showRequired(type.required)}`];
+  return [`    ${colors.bold(names)} ${showType(type)}`,  `${description} ${showDefault(def)}  ${showRequired(type.required)} ${showPositional(type.positional)}`];
 };
 
 const pad = function (str, len = 0) {

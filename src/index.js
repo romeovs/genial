@@ -5,7 +5,7 @@ import yargs     from 'yargs'
 import v8flags   from 'v8flags'
 
 import pkg       from '../package.json'
-import logger    from './lib/logger'
+import log       from './lib/logger'
 import gen       from './lib/gen'
 
 const argv = yargs
@@ -14,7 +14,10 @@ const argv = yargs
   .alias('verbose', 'V')
   .argv;
 
-const log = logger(argv.verbose, argv.color);
+log.configure({
+  verbose:  argv.verbose
+, colors:  !argv.nocolors
+})
 
 log.debug('verbose mode enabled');
 
@@ -38,27 +41,32 @@ const run = function (env) {
   log.debug('CWD =', env.cwd);
   log.debug('GENFILE =', env.configPath);
 
+  // error if not genfile is found
   if ( !env.configPath ) {
     log.error('no genfile found');
     process.exit(1);
   }
 
-  // require the configuration
-  require('babel-register');
-  const required   = require(env.configPath);
-  const generators = required.default ? required.default : required;
-
+  // warn if versions differ
   if ( pkg.version !== env.modulePackage.version ) {
     log.warn(`warning: versions differ.`);
     log.warn(`  local  version is: ${env.modulePackage.version}`)
     log.warn(`  global version is: ${pkg.version}`);
   }
 
+  // if version is asked, jsut show and quit
   if ( argv.version ) {
     console.log(pkg.version);
     process.exit(0);
   }
 
+  // require the configuration
+  require('babel-register');
+  const required = require(env.configPath);
+  const config   = required.default ? required.default : required;
+
+
+  // remove superflous (liftoff/node specific) argv keys
   delete argv.require;
   delete argv.genfile;
   delete argv.verbose;
@@ -70,7 +78,7 @@ const run = function (env) {
   delete argv['$0'];
 
   const opts = {
-    generators
+    generators: config.generators
   , argv
   };
 
