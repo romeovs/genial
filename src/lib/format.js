@@ -25,7 +25,7 @@ export const fmtQuestion = function (defn) {
 };
 
 export const fmtIndex = function (idx) {
-  return colors.gray(idx.toString()) + ' ';
+  return colors.gray(`[${idx.toString()}] `);
 };
 
 export const fmtError = function (err) {
@@ -33,5 +33,5 @@ export const fmtError = function (err) {
 };
 
 export const fmtName = function (name) {
-  return `${colors.magenta(name)}`;
+  return `\`${name}\``;
 };
