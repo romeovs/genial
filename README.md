@@ -44,5 +44,6 @@ names and types of the parameters and possibly add a description.
   ...)
 
 - [ ] boolean flags should hvae a `no-name` version to explicitly set to false
+- [ ] add `genfile.js` documentation
 
 [plop]: https://github.com/amwmedia/plop
